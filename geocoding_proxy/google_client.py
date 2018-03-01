@@ -1,23 +1,22 @@
-import httplib
 import urllib
 from httpclient import HttpClient
 
 """
 TODO:
-- URL encode address
 - Move format_address to helper
 - Throw exception if mapping fails
+- Move API Keys to env
 """
 
 
 class GoogleClient:
     def __init__(self):
         self.api_key = "AIzaSyAKcHpDwduyAGfLkfqwnYr9nwSPq1AYvp4"
+        self.http_client = HttpClient()
 
     def geocoding(self, address):
         url = self.get_url_parameters(address)
-        client = HttpClient()
-        response = client.https_get_json(url["domain"], url["path"])
+        response = self.http_client.https_get_json(url["domain"], url["path"])
         print self.map_response(response)
 
     def map_response(self, response):
