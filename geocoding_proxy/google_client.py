@@ -17,7 +17,7 @@ class GoogleClient:
     def geocoding(self, address):
         url = self.get_url_parameters(address)
         response = self.http_client.https_get_json(url["domain"], url["path"])
-        print self.map_response(response)
+        return self.map_response(response)
 
     def map_response(self, response):
         return {

@@ -8,10 +8,13 @@ class GoogleClientTests(APITestCase):
     Tests for the GoogleClient for Geocoding API
     """
 
+    def setUp(self):
+        self.client = GoogleClient()
+        self.client.api_key = "abc123"
+
     def test_get_url_parameters(self):
-        client = GoogleClient()
-        client.api_key = "abc123"
-        response = client.get_url_parameters("Google Building 41, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA")
+        response = self.client.get_url_parameters(
+            "Google Building 41, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA")
 
         self.assertEqual(response["domain"], "maps.googleapis.com")
         self.assertEqual(response["path"], "/maps/api/geocode/json?address=Google%20Building%2041%2C%201600"
@@ -19,7 +22,6 @@ class GoogleClientTests(APITestCase):
                                            "=abc123")
 
     def test_map_response(self):
-        client = GoogleClient()
         input_object = {
             "results": [
                 {
@@ -34,9 +36,33 @@ class GoogleClientTests(APITestCase):
             ]
         }
 
-        response = client.map_response(input_object)
+        response = self.client.map_response(input_object)
 
         self.assertEqual(response["formatted_address"],
                          "Google Building 41, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA")
         self.assertEqual(response["location"]["latitude"], 37.4221145)
         self.assertEqual(response["location"]["longitude"], -122.0860002)
+
+    def test_geocoding(self):
+        response_object = {
+            "results": [
+                {
+                    "formatted_address": "365 N Halsted St, Chicago, IL 60654, USA",
+                    "geometry": {
+                        "location": {
+                            "lat": 41.888716,
+                            "lng": -87.64662869999999
+                        }
+                    }
+                }
+            ]
+        }
+        self.client.http_client = Mock()
+        self.client.http_client.https_get_json.return_value = response_object
+        self.client.http_client.get_url_parameters.return_value = {"domain": "arturoleon.net", "path": "/"}
+
+        response = self.client.geocoding("365 N Halsted St, Chicago, IL")
+
+        self.assertEqual(response["formatted_address"], "365 N Halsted St, Chicago, IL 60654, USA")
+        self.assertEqual(response["location"]["latitude"], 41.888716)
+        self.assertEqual(response["location"]["longitude"], -87.64662869999999)
