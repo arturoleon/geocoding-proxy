@@ -1,3 +1,4 @@
+import os
 from http_client import HttpClient
 import helpers
 from custom_exceptions import AddressNotFoundException
@@ -5,8 +6,8 @@ from custom_exceptions import AddressNotFoundException
 
 class HereClient:
     def __init__(self):
-        self.app_id = "vAimcDfYzdt8ANZbqC99"
-        self.app_code = "ayiOoe1wqUHSYmIiLv_K2A"
+        self.app_id = os.environ.get('HERE_APP_ID')
+        self.app_code = os.environ.get('HERE_APP_CODE')
         self.http_client = HttpClient()
 
     def geocoding(self, address):

@@ -1,3 +1,4 @@
+import os
 from http_client import HttpClient
 import helpers
 from custom_exceptions import AddressNotFoundException
@@ -5,7 +6,7 @@ from custom_exceptions import AddressNotFoundException
 
 class GoogleClient:
     def __init__(self):
-        self.api_key = "AIzaSyAKcHpDwduyAGfLkfqwnYr9nwSPq1AYvp4"
+        self.api_key = os.environ.get('GOOGLE_API_KEY')
         self.http_client = HttpClient()
 
     def geocoding(self, address):
