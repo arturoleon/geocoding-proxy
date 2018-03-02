@@ -7,8 +7,6 @@ from geocoding_client import GeocodingClient
 from custom_exceptions import AddressNotFoundException
 from http_client import HttpClientException
 
-from django.shortcuts import render
-
 
 class Geocoding(APIView):
     def get(self, request):

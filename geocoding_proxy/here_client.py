@@ -5,6 +5,9 @@ from custom_exceptions import AddressNotFoundException
 
 
 class HereClient:
+    """
+    Implements the HERE Geocoding API service. 
+    """
     def __init__(self):
         self.app_id = os.environ.get('HERE_APP_ID')
         self.app_code = os.environ.get('HERE_APP_CODE')
@@ -17,6 +20,10 @@ class HereClient:
         return self.map_response(response)
 
     def map_response(self, response):
+        """
+        Assumes that the first response is the _best_ match. If it fails to map means that we got an empty or unexpected
+        response.
+        """
         try:
             return {
                 "formatted_address": response["Response"]["View"][0]["Result"][0]["Location"]["Address"]["Label"],
@@ -30,6 +37,9 @@ class HereClient:
             raise AddressNotFoundException()
 
     def get_url_parameters(self, address):
+        """
+        Generates the URL we need to query the service. Is broken up into two parts as the http_client module requires.
+        """
         escaped_address = helpers.format_address(address)
         return {
             "domain": "geocoder.cit.api.here.com",
