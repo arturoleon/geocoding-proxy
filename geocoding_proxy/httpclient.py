@@ -3,10 +3,11 @@ import json
 
 class HttpClient:
     def __init__(self):
-        self.timeout = 1
+        self.timeout = 2
+        self.httplib = httplib
 
     def https_get_json(self, domain, path):
-        connection = httplib.HTTPSConnection(domain, timeout=self.timeout)
+        connection = self.httplib.HTTPSConnection(domain, timeout=self.timeout)
         connection.request("GET", path)
         response = connection.getresponse()
 

@@ -1,12 +1,5 @@
-import urllib
 from httpclient import HttpClient
-
-"""
-TODO:
-- Move format_address to helper
-- Throw exception if mapping fails
-- Move API Keys to env
-"""
+import helpers
 
 
 class GoogleClient:
@@ -29,12 +22,9 @@ class GoogleClient:
         }
 
     def get_url_parameters(self, address):
-        escaped_address = self.format_address(address)
+        escaped_address = helpers.format_address(address)
         return {
             "domain": "maps.googleapis.com",
             "path": "/maps/api/geocode/json?address={}&key={}".format(escaped_address, self.api_key)
         }
 
-    @staticmethod
-    def format_address(address):
-        return urllib.quote(address)
