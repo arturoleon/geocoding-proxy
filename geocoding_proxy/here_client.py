@@ -15,7 +15,6 @@ class HereClient:
 
     def geocoding(self, address):
         url = self.get_url_parameters(address)
-        print url
         response = self.http_client.https_get_json(url["domain"], url["path"])
         return self.map_response(response)
 
