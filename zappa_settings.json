@@ -1,0 +1,15 @@
+{
+    "dev": {
+        "aws_region": "us-east-1", 
+        "django_settings": "geocoding.settings", 
+        "profile_name": "default", 
+        "project_name": "geocoding-proxy", 
+        "runtime": "python2.7", 
+        "s3_bucket": "",
+        "environment_variables": {
+            "HERE_APP_ID": "",
+            "HERE_APP_CODE": "",
+            "GOOGLE_API_KEY": ""
+        }
+    }
+}
