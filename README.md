@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/arturoleon/geocoding-proxy/tree/master.svg?style=svg)](https://circleci.com/gh/arturoleon/geocoding-proxy/tree/master)
+
 # Geocoding proxy
 
 Simple Django REST application that receives an address and resolves the latitude and longitude coordinates for that address.
