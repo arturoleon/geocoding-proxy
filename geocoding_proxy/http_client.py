@@ -1,6 +1,7 @@
 import httplib
 import json
 
+
 class HttpClient:
     def __init__(self):
         self.timeout = 2
@@ -12,10 +13,12 @@ class HttpClient:
         response = connection.getresponse()
 
         if response.status != 200:
-            raise HttpClientException(response.reason)
+            raise HttpClientException(response.reason, response.status)
 
         return json.loads(response.read())
 
 
 class HttpClientException(Exception):
-    pass
+    def __init__(self, message, status_code):
+        self.message = message
+        self.status_code = status_code

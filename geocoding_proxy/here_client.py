@@ -1,5 +1,6 @@
-from httpclient import HttpClient
+from http_client import HttpClient
 import helpers
+from custom_exceptions import AddressNotFoundException
 
 
 class HereClient:
@@ -15,13 +16,17 @@ class HereClient:
         return self.map_response(response)
 
     def map_response(self, response):
-        return {
-            "formatted_address": response["Response"]["View"][0]["Result"][0]["Location"]["Address"]["Label"],
-            "location": {
-                "latitude": response["Response"]["View"][0]["Result"][0]["Location"]["DisplayPosition"]["Latitude"],
-                "longitude": response["Response"]["View"][0]["Result"][0]["Location"]["DisplayPosition"]["Longitude"]
+        try:
+            return {
+                "formatted_address": response["Response"]["View"][0]["Result"][0]["Location"]["Address"]["Label"],
+                "location": {
+                    "latitude": response["Response"]["View"][0]["Result"][0]["Location"]["DisplayPosition"]["Latitude"],
+                    "longitude": response["Response"]["View"][0]["Result"][0]["Location"]["DisplayPosition"][
+                        "Longitude"]
+                }
             }
-        }
+        except IndexError:
+            raise AddressNotFoundException()
 
     def get_url_parameters(self, address):
         escaped_address = helpers.format_address(address)

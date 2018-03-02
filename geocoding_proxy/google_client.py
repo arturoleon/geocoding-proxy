@@ -1,5 +1,6 @@
-from httpclient import HttpClient
+from http_client import HttpClient
 import helpers
+from custom_exceptions import AddressNotFoundException
 
 
 class GoogleClient:
@@ -13,13 +14,16 @@ class GoogleClient:
         return self.map_response(response)
 
     def map_response(self, response):
-        return {
-            "formatted_address": response["results"][0]["formatted_address"],
-            "location": {
-                "latitude": response["results"][0]["geometry"]["location"]["lat"],
-                "longitude": response["results"][0]["geometry"]["location"]["lng"]
+        try:
+            return {
+                "formatted_address": response["results"][0]["formatted_address"],
+                "location": {
+                    "latitude": response["results"][0]["geometry"]["location"]["lat"],
+                    "longitude": response["results"][0]["geometry"]["location"]["lng"]
+                }
             }
-        }
+        except AddressNotFoundException:
+            raise AddressNotFoundException("Not found")
 
     def get_url_parameters(self, address):
         escaped_address = helpers.format_address(address)

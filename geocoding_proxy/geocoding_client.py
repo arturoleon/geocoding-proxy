@@ -1,6 +1,7 @@
 from google_client import GoogleClient
 from here_client import HereClient
-
+from custom_exceptions import AddressNotFoundException
+from http_client import HttpClientException
 
 class GeocodingClient():
     def __init__(self):
@@ -15,5 +16,5 @@ class GeocodingClient():
 
         try:
             return self.secondary_client.geocoding(address)
-        except Exception:
-            return {"error": "Couldn't locate address."}
+        except AddressNotFoundException:
+            raise AddressNotFoundException("Address not found.")
