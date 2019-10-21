@@ -8,7 +8,7 @@ chardet==3.0.4
 click==6.7
 Django==1.11.15
 django-dotenv==1.4.2
-djangorestframework==3.7.7
+djangorestframework==3.9.1
 docutils==0.14
 durationpy==0.5
 funcsigs==1.0.2
